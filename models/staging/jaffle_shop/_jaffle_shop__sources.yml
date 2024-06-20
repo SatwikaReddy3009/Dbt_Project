@@ -10,9 +10,19 @@ sources:
     loaded_at_field: _etl_loaded_at
     tables:
       - name: customers
+        columns:
+          - name: id
+            tests:
+              - unique
+              - not_null         
         freshness: null
         
       - name: orders
+        columns:
+          - name: id
+            tests:
+              - unique
+              - not_null 
         freshness: # make this a little more strict
           warn_after: {count: 100, period: hour}
           error_after: {count: 48, period: day}
