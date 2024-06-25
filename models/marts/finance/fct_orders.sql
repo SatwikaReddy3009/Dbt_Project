@@ -4,7 +4,7 @@ with orders as  (
 
 payments as (
     select order_id,
-        sum (case when status = 'success' then amount end) as amount
+        sum (case when  payment_status = 'success' then payment_amount end) as amount
         from {{  ref('stg_stripe__payments') }}
     group by 1
 ),
@@ -15,11 +15,11 @@ payments as (
     select
         orders.order_id,
         orders.customer_id,
-        orders.order_date,
+        orders.order_placed_at,
         coalesce (payments.amount, 0) as amount
 
     from orders
-    left join payments using (order_id)
+    left join payments on orders.order_id = payments.order_id
 )
 
 select * from final
