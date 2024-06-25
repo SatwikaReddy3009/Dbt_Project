@@ -16,14 +16,15 @@ paid_orders as (
 -- final CTE
 final as (
     select
-            order_id,
-            customer_id,
-            order_placed_at,
-            order_status,
-            total_amount_paid,
-            payment_finalized_date,
-            customer_first_name,
-            customer_last_name,
+            paid_orders.order_id,
+            paid_orders.customer_id,
+           paid_orders. order_placed_at,
+            paid_orders.order_status,
+            paid_orders.total_amount_paid,
+            paid_orders.payment_finalized_date,
+            customerscustomer_first_name,
+            customers.customer_last_name,
+            
             row_number() over (order by paid_orders.order_placed_at, paid_orders.order_id) as transaction_seq,
             row_number() over (partition by paid_orders.customer_id order by paid_orders.order_placed_at, paid_orders.order_id) as customer_sales_seq,
             
